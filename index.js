@@ -4,13 +4,16 @@ const { json } = require("body-parser");
 const { v4: uuid } = require("@lukeed/uuid");
 const PORT = process.env.PORT || 3000;
 const todos = [];
+const cors = require('cors');
 
 // body parser
 app.use(json());
+// cors
+app.use(cors());
 
 // allow cors
 app.use((req, res, next) => {
-  res.setHeader("access-control-allow-origin", "*");
+  // res.setHeader("access-control-allow-origin", "*");
   res.setHeader("content-type", "application/json");
   next();
 });
@@ -39,7 +42,7 @@ app.post("/", (req, res) => {
   res.end(
     JSON.stringify({
       status: true,
-      msg: "Data berhasil didapatkan",
+      msg: "Data berhasil ditambahkan",
       todos,
     })
   );
@@ -98,6 +101,10 @@ app.delete("/:id", (req, res) => {
       })
     );
   }
+});
+
+app.all('*', (req, res) => {
+  res.end('OK');
 });
 
 app.listen(PORT, (err) => {
